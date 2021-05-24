@@ -32,10 +32,10 @@ public class SaveManager : MonoBehaviour
     
     void Update()
     {
-        if (Input.GetKey(KeyCode.T))
+        /*if (Input.GetKey(KeyCode.T))
         {
             DeleteSavedData();
-        }   
+        } */  
     }
 
     //Save the data

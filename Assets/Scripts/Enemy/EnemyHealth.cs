@@ -8,17 +8,20 @@ public class EnemyHealth : MonoBehaviour
     [HideInInspector] public bool isHitted;
 
     Animator anim;
+    AudioSource audioSource;
 
     private void Start()
     {
         enemyHealth = maxHealth;
         anim = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
     }
     
     public void AddDamage(int amount)
     {
         enemyHealth -= amount;
         anim.SetTrigger("GotDamage");
+        audioSource.Play();
 
         if (enemyHealth <= 0)
         {

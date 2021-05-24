@@ -6,7 +6,7 @@ public class Lever : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            Debug.Log("ey");
+            
         }
     }
     private void OnTriggerStay2D(Collider2D collision)
@@ -21,7 +21,7 @@ public class Lever : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            Debug.Log("ey");
+            
         }
     }
 }

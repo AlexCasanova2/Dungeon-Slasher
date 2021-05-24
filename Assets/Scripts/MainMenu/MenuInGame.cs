@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class MenuInGame : MonoBehaviour
@@ -48,11 +49,6 @@ public class MenuInGame : MonoBehaviour
         else
         {
             MenuInGame.inst = this;
-        }
-
-        if (Input.GetButtonDown("MainMenu"))
-        {
-            PauseResume();
         }
     }
     
@@ -106,6 +102,14 @@ public class MenuInGame : MonoBehaviour
     public void SaveGame()
     {
         SaveManager.instance.Save();
+    }
+
+    public void Escape(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            PauseResume();
+        }
     }
 
 

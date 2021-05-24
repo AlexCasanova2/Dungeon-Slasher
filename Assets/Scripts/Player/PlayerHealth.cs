@@ -6,23 +6,21 @@ using UnityEngine.SceneManagement;
 
 public class PlayerHealth : MonoBehaviour
 {
-    [HideInInspector] public int maxHealth = 3;
+    public int maxHealth = 4;
     public int health;
     [HideInInspector]public bool playerIsDead;
     Animator anim;
     public ParticleSystem damageParticle;
     [HideInInspector]public bool isHitted;
-    public GameObject enemyHitbox;
 
     private void Awake()
     {
         anim = GetComponent<Animator>();
-        
+        maxHealth = 4;
+
     }
     void Start()
     {
-        health = maxHealth;
-
         //Save system
         if (SaveManager.instance.hasLoaded)
         {
@@ -30,6 +28,7 @@ public class PlayerHealth : MonoBehaviour
         }
         else
         {
+            //health = maxHealth;
             SaveManager.instance.activeSave.health = health;
         }
     }
@@ -37,9 +36,8 @@ public class PlayerHealth : MonoBehaviour
     void Update() {
         if (playerIsDead)
         {
-            //gameObject.GetComponent<PlayerController>().enabled = true;
-            health = maxHealth;
-            Debug.Log("et");
+            Debug.Log("1");
+            //playerIsDead = false;
             SaveManager.instance.activeSave.health = health;
         }
     }
@@ -51,16 +49,15 @@ public class PlayerHealth : MonoBehaviour
         if (health <= 0)
         {
             health = 0;
+            playerIsDead = true;
             Debug.Log("Game Over");
             anim.SetBool("Idle", false);
-            playerIsDead = true;
-            //gameObject.GetComponent<PlayerController>().enabled = false;
+            
         }
         SaveManager.instance.activeSave.health = health;
         anim.SetTrigger("Hitted");
         
         damageParticle.Play();
-        //Debug.Log("Te han golpeado, tu vida actual es de: " + health);
     }
 
     public void AddHealth(int amount)

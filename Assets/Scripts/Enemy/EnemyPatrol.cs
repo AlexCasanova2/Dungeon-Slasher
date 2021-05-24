@@ -107,44 +107,11 @@ public class EnemyPatrol : MonoBehaviour
 
     void Attack()
     {
-
         attackMode = true;
         
         anim.SetBool("CanWalk", false);
         anim.SetBool("Attack", true);
         timer = intTimer; //Reset timer
-        //combo++;
-        //Debug.Log("valor combo: " + combo);
-
-        /*if (combo < 2)
-        {
-            Debug.Log("El combo es menor que 2");
-            attackMode = true;
-            combo++;
-            anim.SetBool("CanWalk", false);
-            anim.SetBool("Attack", true);
-        }
-        if (combo == 3)
-        {
-            combo = 0;
-        }
-        
-         if (combo > 0)
-        {
-            Debug.Log("El combo es mayor que 0");
-            if (combo == 3 || combo == 2)
-            {
-                Debug.Log("El combo es igual a 2");
-                combo = 0;
-            }
-            else
-            {
-                Debug.Log("Ni una cosa ni la otra");
-                combo--;
-            }
-        }
-        */
-
     }
 
     void Cooldwon()
@@ -199,7 +166,6 @@ public class EnemyPatrol : MonoBehaviour
         {
             target = null;
         }
-        
     }
 
     public void Flip()

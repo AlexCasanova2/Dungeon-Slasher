@@ -2,22 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
     //Instancia de la clase
     public static PlayerController inst;
 
-
     [Header("Player Attributes")]
     public float playerSpeed = 2.5f;
     public float jumpForce = 2.5f;
+    public float attackRate = 2f;
+    float nextAttackTime = 0;
     [Header("Player Colliders")]
     public Transform groundCheck;
     public LayerMask groundLayer;
     public float groundCheckRadius;
 
     Vector2 respawnPoint;
+    [HideInInspector] public bool canRespawn;
 
     //AudioClips
     [HideInInspector] public AudioClip footstep1;
@@ -35,6 +38,10 @@ public class PlayerController : MonoBehaviour
     bool facingRight = true;
     bool isGrounded;
     bool _isHitted;
+
+    //NEW INPUT MOVEMENT
+    float inputX;
+    bool jumPressed;
 
     //Hang Time for Jump
     public float hangTime = .2f;
@@ -85,7 +92,6 @@ public class PlayerController : MonoBehaviour
         }
 
     }
-
     void Update()
     {
         if (SceneManager.GetActiveScene().name == "MainMenu")
@@ -95,6 +101,10 @@ public class PlayerController : MonoBehaviour
 
         if (isAttacking == false)
         {
+            #region Eliminar ?
+            //START OLD SYSTEM INPUT
+
+            /*
             //Saber si el usuario se mueve a izquierda o derecha (-1 o 1)
             float horizontalInput = Input.GetAxisRaw("Horizontal");
             movement = new Vector2(horizontalInput, 0f);
@@ -110,8 +120,21 @@ public class PlayerController : MonoBehaviour
             {
                 Flip();
             }
-        }
+            */
+            //END OLD INPUT SYSTEM
 
+            #endregion
+
+            movement = new Vector2(inputX, 0f);
+            if (inputX < 0f && facingRight == true)
+            {
+                Flip();
+            }
+            else if (inputX > 0f && facingRight == false)
+            {
+                Flip();
+            }
+        }
         //Is grounded?
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
 
@@ -124,39 +147,8 @@ public class PlayerController : MonoBehaviour
         {
             hangCounter -= Time.deltaTime;
         }
-
-        //Manage JumpBuffer
-        if (Input.GetButtonDown("Jump"))
-        {
-            jumpBufferCount = jumpBufferLength;
-        }
-        else
-        {
-            jumpBufferCount -= Time.deltaTime;
-        }
-
-        //Is jumping?
-        if (jumpBufferCount >= 0 && hangCounter > 0f && !isAttacking) 
-        {
-            isGrounded = false;
-            hangCounter = 0f;
-            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-            jumpBufferCount = 0;
-        }
-        if (Input.GetButtonUp("Jump") &&  rb.velocity.y > 0)
-        {
-            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * .5f);
-        }
-
         //Is hitted
         _isHitted = gameObject.GetComponent<PlayerHealth>().isHitted;
-
-        //Wanna attack?
-        if (Input.GetButtonDown("Fire1") && isGrounded & !isAttacking)
-        {
-            Attack();
-        }
-
     }
 
     private void FixedUpdate()
@@ -195,22 +187,15 @@ public class PlayerController : MonoBehaviour
             _isHitted = false;
         }
 
-        if (playerHealth.playerIsDead)
+        if (canRespawn)
         {
-            
+            Debug.Log("2");
             transform.position = respawnPoint;
+            canRespawn = false;
             playerHealth.playerIsDead = false;
+            return;
         }
     }
-
-    public void Attack()
-    {
-        movement = Vector2.zero;
-        rb.velocity = Vector2.zero;
-        anim.SetTrigger("Attack");
-        audioSource.Play();
-    }
-
     public void Flip()
     {
         facingRight = !facingRight;
@@ -224,6 +209,7 @@ public class PlayerController : MonoBehaviour
         if (collision.CompareTag("DeadZone"))
         {
             transform.position = respawnPoint;
+            playerHealth.AddDamage(1);
         }
         if (collision.CompareTag("CheckPoint"))
         {
@@ -235,6 +221,53 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    //NEW SYSTEM INPUT
+    public void Move(InputAction.CallbackContext context)
+    {
+        inputX = context.ReadValue<Vector2>().x;
+    } 
+    public void Jump(InputAction.CallbackContext context)
+    {
+        jumpBufferCount = jumpBufferLength;
+
+        if (context.performed && isGrounded && jumpBufferCount >= 0 && hangCounter > 0f && !isAttacking)
+        {
+            isGrounded = false;
+            hangCounter = 0f;
+            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            jumpBufferCount = 0;
+        }
+        if (context.canceled && rb.velocity.y > 0f)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * .5f);
+            jumpBufferCount -= Time.deltaTime;
+        }
+    }
+
+    public void Attack(InputAction.CallbackContext context)
+    {
+        if (context.performed && isGrounded && Time.time >= nextAttackTime)
+        {
+            nextAttackTime = Time.time + 1f / attackRate;
+            movement = Vector2.zero;
+            rb.velocity = Vector2.zero;
+            anim.SetTrigger("Attack");
+            audioSource.Play();
+            CinemachineShake.inst.ShakeCamera(2f, .1f);
+        }
+    }
+
+    public void Interact(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            Debug.Log("Interact");
+        }
+        if (context.canceled)
+        {
+            Debug.Log("Cancelled");
+        }
+    }
 
     #region OnLevelLoad
     void OnEnable()

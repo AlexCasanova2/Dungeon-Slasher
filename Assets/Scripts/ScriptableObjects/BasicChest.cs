@@ -19,6 +19,7 @@ public class BasicChest : MonoBehaviour
     public GameObject itemYoActivateInventory;
     GameObject child;
     Light2D lt;
+    PlayerController playerController;
 
     //Save System
     bool isOpened;
@@ -27,6 +28,7 @@ public class BasicChest : MonoBehaviour
     {
         child = gameObject.transform.GetChild(1).gameObject;
         lt = child.GetComponent<Light2D>();
+        playerController = GetComponent<PlayerController>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -41,7 +43,7 @@ public class BasicChest : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player") && Input.GetButtonDown("Interact"))
+        if (collision.CompareTag("Player"))
         {
             isOpened = true;
             gameObject.transform.GetChild(0).gameObject.SetActive(false);
