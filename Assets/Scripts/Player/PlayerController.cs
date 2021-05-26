@@ -31,6 +31,7 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rb;
     Animator anim;
     AudioSource audioSource;
+    PlayerManager playerManager;
     PlayerHealth playerHealth;
 
     //Movement
@@ -78,6 +79,7 @@ public class PlayerController : MonoBehaviour
         anim = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
         playerHealth = GetComponent<PlayerHealth>();
+        playerManager = GetComponent<PlayerManager>();
     }
 
     void Start()
@@ -90,7 +92,6 @@ public class PlayerController : MonoBehaviour
             respawnPoint = SaveManager.instance.activeSave.respawnPosition;
             transform.position = respawnPoint;
         }
-
     }
     void Update()
     {
@@ -261,11 +262,11 @@ public class PlayerController : MonoBehaviour
     {
         if (context.performed)
         {
-            Debug.Log("Interact");
+            playerManager.canInteract = true;
         }
         if (context.canceled)
         {
-            Debug.Log("Cancelled");
+            playerManager.canInteract = false;
         }
     }
 

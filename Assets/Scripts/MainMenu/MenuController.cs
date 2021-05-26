@@ -10,7 +10,7 @@ public class MenuController : MonoBehaviour
 
     //Controllers
     public GameObject mainMenu;
-    public GameObject generalMenu, optionsMenu, areYouSureMenu;
+    public GameObject generalMenu, optionsMenu, areYouSureMenu, audioPanel, videoPanel;
 
     void Start()
     {
@@ -61,6 +61,10 @@ public class MenuController : MonoBehaviour
 
     public void NewGame(){
         SceneManager.LoadScene(1);
+        
+    }
+    public void DeleteSavedData()
+    {
         SaveManager.instance.DeleteSavedData();
     }
 
@@ -93,9 +97,34 @@ public class MenuController : MonoBehaviour
         areYouSureMenu.SetActive(false);
     }
 
+    public void ShowAudioPanel()
+    {
+        optionsMenu.SetActive(false);
+        audioPanel.SetActive(true);
+    }
+    public void HideAudioPanel()
+    {
+        optionsMenu.SetActive(true);
+        audioPanel.SetActive(false);
+    }
+
+    public void ShowVideoPanel()
+    {
+        optionsMenu.SetActive(false);
+        videoPanel.SetActive(true);
+    }
+
+    public void HideVideoPanel()
+    {
+        optionsMenu.SetActive(true);
+        videoPanel.SetActive(false);
+
+    }
+
+
     #endregion
 
-    
+
 
     #region PointerEvents
 

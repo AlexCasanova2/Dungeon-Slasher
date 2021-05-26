@@ -36,7 +36,6 @@ public class PlayerHealth : MonoBehaviour
     void Update() {
         if (playerIsDead)
         {
-            Debug.Log("1");
             //playerIsDead = false;
             SaveManager.instance.activeSave.health = health;
         }
@@ -68,6 +67,7 @@ public class PlayerHealth : MonoBehaviour
             health = maxHealth;
             Debug.Log("Tienes el máximo de vida");
         }
+        SaveManager.instance.activeSave.health = health;
         Debug.Log("Te has curado, tu vida actual es de: " + health);
     }
 

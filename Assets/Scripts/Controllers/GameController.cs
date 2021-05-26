@@ -1,4 +1,5 @@
 using Cinemachine;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 using UnityEngine.SceneManagement;
@@ -11,6 +12,7 @@ public class GameController : MonoBehaviour
     GameObject cameraConfiner;
     private PlayerHealth playerHealth;
     bool _playerIsDead;
+    
 
 
     private void Awake()
@@ -39,16 +41,20 @@ public class GameController : MonoBehaviour
             //Debug.Log("La camara no existe");
             vCam.GetComponent<CinemachineConfiner>().m_BoundingShape2D = cameraConfiner.GetComponent<PolygonCollider2D>();
         }
-    }
 
-    void Start()
+
+        
+
+    }
+    private void Start()
     {
-        //playerHealth = playerHealth.GetComponent<PlayerHealth>();
+        
     }
     void Update()
     {
-        //_playerIsDead = playerHealth.playerIsDead;
+       
     }
+
 
     public void PlayerDead()
     {
@@ -60,9 +66,7 @@ public class GameController : MonoBehaviour
         }
     }
 
-
-
-    //Everytime load scene
+    #region LoadScene
 
     void OnEnable()
     {
@@ -88,4 +92,5 @@ public class GameController : MonoBehaviour
         }
         
     }
+    #endregion
 }

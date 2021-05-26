@@ -9,6 +9,9 @@ public class PlayerManager : MonoBehaviour
     PlayerAttack playerAttack;
     PlayerInventory playerInventory;
 
+    //Control Variables
+    public bool canInteract;
+
     private void Awake()
     {
         
@@ -36,20 +39,26 @@ public class PlayerManager : MonoBehaviour
             //Puede hacer respawn
             playerController.canRespawn = true;
             playerHealth.health = playerHealth.maxHealth;
-            Debug.Log("3");
-
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Interact"))
-        {
-            Debug.Log("Interact");
-        }
+        
     }
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Interact"))
+        {
+            if (canInteract)
+            {
+                collision.gameObject.GetComponent<BasicChest>().open = true;
+                return;
+            }
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
     {
         
     }

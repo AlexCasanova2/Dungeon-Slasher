@@ -49,8 +49,6 @@ public class SaveManager : MonoBehaviour
         var stream = new FileStream(dataPath + "/" + activeSave.saveName + ".save", FileMode.Create);
         serializer.Serialize(stream, activeSave);
         stream.Close();
-
-        Debug.Log("Saved");
     }
 
     //Load the data
@@ -64,9 +62,6 @@ public class SaveManager : MonoBehaviour
             var stream = new FileStream(dataPath + "/" + activeSave.saveName + ".save", FileMode.Open);
             activeSave = serializer.Deserialize(stream) as SaveData;
             stream.Close();
-
-            Debug.Log("Loaded");
-
             hasLoaded = true;
         }
     }
@@ -104,4 +99,7 @@ public class SaveData
     public Vector3 respawnPosition;
     public bool doorOpen, destructedTiles;
     public int health, potions, gold, damage;
+    public float potionFillAmount;
+    public List<ChestTest.SpecialItem> inventoryItems;
+    public List<string> gameObjectsInteracted;
 }

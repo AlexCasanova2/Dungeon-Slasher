@@ -9,14 +9,13 @@ public class MenuInGame : MonoBehaviour
 {
     public static MenuInGame inst;
 
+    AudioSource audioSource;
     GameObject player;
     bool canMove;
 
     public GameObject pauseMenu;
     public GameObject optionsMenu;
     public static bool GameIsPaused = false;
-
-    public GameObject pauseFirstButton, optionsFirstButton, optionsClosedButton;
 
     //Referencia al Controller
 
@@ -35,6 +34,7 @@ public class MenuInGame : MonoBehaviour
 
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         GameIsPaused = false;
         player = GameObject.FindWithTag("Player");
         canMove = true;
@@ -64,11 +64,6 @@ public class MenuInGame : MonoBehaviour
         else
         {
             Time.timeScale = 0;
-            
-            //Clear selected objects
-            EventSystem.current.SetSelectedGameObject(null);
-            //set a new selected
-            EventSystem.current.SetSelectedGameObject(pauseFirstButton);
         }
         GameIsPaused = !GameIsPaused;
     }
@@ -84,19 +79,11 @@ public class MenuInGame : MonoBehaviour
     {
         optionsMenu.SetActive(true);
 
-        //Clear selected objects
-        EventSystem.current.SetSelectedGameObject(null);
-        //set a new selected
-        EventSystem.current.SetSelectedGameObject(optionsFirstButton);
+        
     }
     public void CloseOptions()
     {
         optionsMenu.SetActive(false);
-
-        //Clear selected objects
-        EventSystem.current.SetSelectedGameObject(null);
-        //set a new selected
-        EventSystem.current.SetSelectedGameObject(optionsClosedButton);
     }
 
     public void SaveGame()
@@ -110,6 +97,11 @@ public class MenuInGame : MonoBehaviour
         {
             PauseResume();
         }
+    }
+
+    public void ClickSound()
+    {
+        audioSource.Play();
     }
 
 

@@ -5,10 +5,12 @@ public class PlayerAttack : MonoBehaviour
 	private bool _isAttacking;
 	private Animator _animator;
 	public int playerDamage = 1;
+	PlayerInventory playerInventory;
 
 	private void Awake()
 	{
 		_animator = GetComponent<Animator>();
+		playerInventory = GetComponent<PlayerInventory>();
 	}
 
     private void Start()
@@ -44,6 +46,7 @@ public class PlayerAttack : MonoBehaviour
 			if (collision.CompareTag("Enemy"))
 			{
 				collision.SendMessageUpwards("AddDamage", playerDamage);
+				playerInventory.AddPotionFillAmount(5f);
 			}
 		}
 	}

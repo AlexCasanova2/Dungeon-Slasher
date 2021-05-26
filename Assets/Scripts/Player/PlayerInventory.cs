@@ -8,6 +8,8 @@ public class PlayerInventory : MonoBehaviour
 {
     public int goldAmount;
     public int potionAmount;
+    public float potionFillAmount;
+    public List<ChestTest.SpecialItem> inventoryItems;
 
     //References    
     TextMeshProUGUI goldText;
@@ -16,11 +18,6 @@ public class PlayerInventory : MonoBehaviour
     GameObject _goldText;
     GameObject _potionText;
 
-    void Awake()
-    {
-        
-    }
-
     void Start()
     {
         //Save system
@@ -28,13 +25,41 @@ public class PlayerInventory : MonoBehaviour
         {
             goldAmount = SaveManager.instance.activeSave.gold;
             potionAmount = SaveManager.instance.activeSave.potions;
+            potionFillAmount = SaveManager.instance.activeSave.potionFillAmount;
+            inventoryItems = SaveManager.instance.activeSave.inventoryItems;
         }
         else
         {
             SaveManager.instance.activeSave.gold = goldAmount;
             SaveManager.instance.activeSave.potions = potionAmount;
+            SaveManager.instance.activeSave.potionFillAmount = potionFillAmount;
+            SaveManager.instance.activeSave.inventoryItems = inventoryItems;
         }
+    }
 
+    public void AddPotionFillAmount(float amount)
+    {
+        potionFillAmount += amount;
+        
+        if (potionFillAmount >= 10)
+        {
+            potionAmount++;
+            
+            potionFillAmount = 0;
+
+            if (potionAmount >= 3)
+            {
+                potionAmount = 3;
+                potionFillAmount = 0;
+                Debug.Log("Has llegado al limite de pociones");
+            }
+            if (potionAmount < 3)
+            {
+                Debug.Log("Tienes: " + potionAmount + " pocion/es");
+            }
+        }
+        SaveManager.instance.activeSave.potionFillAmount = potionFillAmount;
+        SaveManager.instance.activeSave.potions += potionAmount;
     }
 
     void Update()

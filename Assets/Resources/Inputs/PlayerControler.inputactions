@@ -321,17 +321,6 @@
                 },
                 {
                     "name": "",
-                    "id": "2c49494b-c909-4bfa-9199-5f6887df8da7",
-                    "path": "<Gamepad>/leftStick/up",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Interact",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "f59a976b-c695-41b7-a5c9-6d9a86e05082",
                     "path": "<Gamepad>/dpad/up",
                     "interactions": "",

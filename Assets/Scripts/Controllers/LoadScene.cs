@@ -22,7 +22,6 @@ public class LoadScene : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             SceneManager.LoadScene(sceneIndex);
-            Debug.Log("ENTRO EN EL COLLIDER");
             Destroy(gameObject);
         }
     }
