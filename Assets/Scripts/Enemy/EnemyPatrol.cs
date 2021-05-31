@@ -154,7 +154,7 @@ public class EnemyPatrol : MonoBehaviour
 
         if (distanceToLeft > distanceToRight)
         {
-            target = leftLimit;
+            //target = leftLimit;
             Flip();
         }
         else

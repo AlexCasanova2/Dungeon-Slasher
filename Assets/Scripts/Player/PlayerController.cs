@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     public Transform groundCheck;
     public LayerMask groundLayer;
     public float groundCheckRadius;
+    public bool isWater;
 
     Vector2 respawnPoint;
     [HideInInspector] public bool canRespawn;
@@ -25,7 +26,10 @@ public class PlayerController : MonoBehaviour
     //AudioClips
     [HideInInspector] public AudioClip footstep1;
     [HideInInspector] public AudioClip footstep2;
+     public AudioClip footstepwater1;
+     public AudioClip footstepwater2;
     [HideInInspector] public AudioClip landing;
+    [HideInInspector] public AudioClip jump;
 
     //References
     Rigidbody2D rb;
@@ -237,6 +241,7 @@ public class PlayerController : MonoBehaviour
             hangCounter = 0f;
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             jumpBufferCount = 0;
+           
         }
         if (context.canceled && rb.velocity.y > 0f)
         {
@@ -295,16 +300,42 @@ public class PlayerController : MonoBehaviour
     #region PlayerSounds
     public void FirstFootstep()
     {
-        audioSource.PlayOneShot(footstep1, 0.2f);
+        if (!isWater)
+        {
+            audioSource.PlayOneShot(footstep1, 0.1f);
+        }
+        else
+        {
+            audioSource.PlayOneShot(footstepwater1, 0.1f);
+        }
     }
     public void SecondFootstep()
     {
-        audioSource.PlayOneShot(footstep2, 0.2f);
+        if (!isWater)
+        {
+            audioSource.PlayOneShot(footstep2, 0.1f);
+        }
+        else
+        {
+            audioSource.PlayOneShot(footstepwater2, 0.1f);
+        }
     }
 
     public void LandingSound()
     {
-        audioSource.PlayOneShot(landing, 0.2f);
+        if (!isWater)
+        {
+            audioSource.PlayOneShot(landing, 0.1f);
+        }
+        else
+        {
+            audioSource.PlayOneShot(footstepwater2, 0.1f);
+        }
+    }
+
+    public void JumpSound()
+    {
+        audioSource.PlayOneShot(jump, 0.4f);
     }
 
     #endregion

@@ -44,6 +44,7 @@ public class PlayerHealth : MonoBehaviour
     public void AddDamage(int amount)
     {
         health -= amount;
+        
 
         if (health <= 0)
         {
@@ -76,10 +77,12 @@ public class PlayerHealth : MonoBehaviour
         if (anim.GetCurrentAnimatorStateInfo(0).IsTag("Hitted"))
         {
             isHitted = true;
+            gameObject.GetComponent<SpriteRenderer>().color = Color.black;
         }
         else
         {
             isHitted = false;
+            gameObject.GetComponent<SpriteRenderer>().color = Color.white;
         }
     }
 }

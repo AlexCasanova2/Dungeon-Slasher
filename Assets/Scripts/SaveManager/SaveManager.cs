@@ -96,6 +96,16 @@ public class SaveManager : MonoBehaviour
 public class SaveData
 {
     public string saveName;
+
+    [Header("General Settings")]
+    public float generalVolume;
+    public float musicVolume;
+    public float soundsVolume;
+    public int resolutionIndex;
+    public int qualityIndex;
+    public bool fullScreen;
+
+    [Header("Player Settings")]
     public Vector3 respawnPosition;
     public bool doorOpen, destructedTiles;
     public int health, potions, gold, damage;

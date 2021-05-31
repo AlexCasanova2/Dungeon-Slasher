@@ -37,17 +37,20 @@ public class VideoController : MonoBehaviour
     public void SetQuality (int qualityIndex)
     {
         QualitySettings.SetQualityLevel(qualityIndex);
+        SaveManager.instance.activeSave.qualityIndex = qualityIndex;
     }
 
     public void SetFullScreen(bool isFullScreen)
     {
         Screen.fullScreen = isFullScreen;
+        SaveManager.instance.activeSave.fullScreen = isFullScreen;
     }
 
     public void SetResolution(int resolutionIndex)
     {
         Resolution resolution = resolutions[resolutionIndex];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
+        SaveManager.instance.activeSave.resolutionIndex = resolutionIndex;
     }
 
 }

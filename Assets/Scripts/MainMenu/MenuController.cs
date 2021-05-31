@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -7,6 +8,9 @@ public class MenuController : MonoBehaviour
 {
     public GameObject continueButton;
     public AudioSource audioSource;
+    public AudioSource selectAudio;
+
+   
 
     //Controllers
     public GameObject mainMenu;
@@ -60,7 +64,7 @@ public class MenuController : MonoBehaviour
     }
 
     public void NewGame(){
-        SceneManager.LoadScene(1);
+        StartCoroutine(Wait());
         
     }
     public void DeleteSavedData()
@@ -76,6 +80,7 @@ public class MenuController : MonoBehaviour
     public void ShowOptions()
     {
         optionsMenu.SetActive(true);
+        //generalMenu.GetComponent<Animator>().SetBool("HideGeneralMenu", true);
         generalMenu.SetActive(false);
     }
 
@@ -83,6 +88,7 @@ public class MenuController : MonoBehaviour
     {
         optionsMenu.SetActive(false);
         generalMenu.SetActive(true);
+        //generalMenu.GetComponent<Animator>().SetBool("ShowGeneralMenu", true);
     }
 
     public void ShowAreYouSure()
@@ -133,6 +139,17 @@ public class MenuController : MonoBehaviour
     {
         audioSource.Play();
     }
+    public void SelectSound()
+    {
+        selectAudio.Play();
+    }
 
     #endregion
+
+    IEnumerator Wait()
+    {
+        yield return new WaitForSeconds(2f);
+        SceneManager.LoadScene(1);
+        selectAudio.volume = 0;
+    }
 }

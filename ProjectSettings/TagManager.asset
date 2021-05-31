@@ -12,6 +12,7 @@ TagManager:
   - DeadZone
   - CheckPoint
   - Interact
+  - Water
   layers:
   - Default
   - TransparentFX
@@ -26,7 +27,7 @@ TagManager:
   - Player
   - Walls
   - Destructable
-  - 
+  - Water
   - 
   - 
   - 
