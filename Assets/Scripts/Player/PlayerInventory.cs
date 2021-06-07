@@ -52,6 +52,8 @@ public class PlayerInventory : MonoBehaviour
                 potionAmount = 3;
                 potionFillAmount = 0;
                 Debug.Log("Has llegado al limite de pociones");
+                SaveManager.instance.activeSave.potionFillAmount = potionFillAmount;
+                SaveManager.instance.activeSave.potions += potionAmount;
             }
             if (potionAmount < 3)
             {

@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class PlayerHealth : MonoBehaviour
 {
-    public int maxHealth = 4;
+    public int maxHealth;
     public int health;
     [HideInInspector]public bool playerIsDead;
     Animator anim;
@@ -16,7 +16,7 @@ public class PlayerHealth : MonoBehaviour
     private void Awake()
     {
         anim = GetComponent<Animator>();
-        maxHealth = 4;
+        maxHealth = 8;
 
     }
     void Start()

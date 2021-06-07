@@ -18,7 +18,9 @@ public class PlayerController : MonoBehaviour
     public Transform groundCheck;
     public LayerMask groundLayer;
     public float groundCheckRadius;
-    public bool isWater;
+    bool isWater;
+    public bool isFacingLeft;
+    public bool isFacingRight;
 
     Vector2 respawnPoint;
     [HideInInspector] public bool canRespawn;
@@ -26,8 +28,8 @@ public class PlayerController : MonoBehaviour
     //AudioClips
     [HideInInspector] public AudioClip footstep1;
     [HideInInspector] public AudioClip footstep2;
-     public AudioClip footstepwater1;
-     public AudioClip footstepwater2;
+    [HideInInspector] public AudioClip footstepwater1;
+    [HideInInspector] public AudioClip footstepwater2;
     [HideInInspector] public AudioClip landing;
     [HideInInspector] public AudioClip jump;
 
@@ -50,9 +52,9 @@ public class PlayerController : MonoBehaviour
 
     //Hang Time for Jump
     public float hangTime = .2f;
-    public float hangCounter;
+    [HideInInspector] public float hangCounter;
 
-    public float jumpBufferLength = .1f;
+    [HideInInspector] public float jumpBufferLength = .1f;
     float jumpBufferCount;
 
     //Attack
@@ -134,10 +136,12 @@ public class PlayerController : MonoBehaviour
             if (inputX < 0f && facingRight == true)
             {
                 Flip();
+                isFacingRight = facingRight;
             }
             else if (inputX > 0f && facingRight == false)
             {
                 Flip();
+                isFacingRight = facingRight;
             }
         }
         //Is grounded?
@@ -223,6 +227,23 @@ public class PlayerController : MonoBehaviour
             SaveManager.instance.activeSave.respawnPosition = collision.transform.position;
 
             SaveManager.instance.Save();
+
+            collision.GetComponent<CheckPoint>().SetCheckPoint();
+        }
+        if (collision.CompareTag("Water"))
+        {
+            playerSpeed = 1f;
+            jumpForce = 5f;
+            isWater = true;
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Water"))
+        {
+            playerSpeed = 2.5f;
+            jumpForce = 6f;
+            isWater = false;
         }
     }
 

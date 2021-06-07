@@ -12,11 +12,6 @@ public class PlayerManager : MonoBehaviour
     //Control Variables
     public bool canInteract;
 
-    private void Awake()
-    {
-        
-    }
-
     void Start()
     {
         playerController = GetComponent<PlayerController>();

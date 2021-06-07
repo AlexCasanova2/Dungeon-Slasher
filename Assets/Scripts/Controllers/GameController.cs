@@ -41,10 +41,6 @@ public class GameController : MonoBehaviour
             //Debug.Log("La camara no existe");
             vCam.GetComponent<CinemachineConfiner>().m_BoundingShape2D = cameraConfiner.GetComponent<PolygonCollider2D>();
         }
-
-
-        
-
     }
     private void Start()
     {
